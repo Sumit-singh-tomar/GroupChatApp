@@ -44,7 +44,7 @@ exports.login = async (req, res) => {
         })
 
         if (result === null) {
-            res.status(500).json({ status: false, data: 'Account Not Exist' })
+            res.status(404).json({ status: false, data: 'Account Not Exist' })
         }
         else {
             const match = await bcrypt.compare(password, result.password)
@@ -52,7 +52,7 @@ exports.login = async (req, res) => {
                 res.status(200).json({ status: true, token: generateToken(result.id, result.name, result.emailid, result.phonenumber) })
             }
             else {
-                res.status(400).json({ status: false, data: 'Password Incorrect' })
+                res.status(401).json({ status: false, data: 'Password Incorrect' })
             }
         }
     } catch (e) {
