@@ -1,14 +1,18 @@
 const http = require('http')
 const express = require('express')
+require('dotenv').config()
 const sequelize = require('./Connection/database')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const path = require('path')
+
 const accountRouter = require('./routes/account')
 
 const app = express()
 
-app.use(cors())
+app.use(cors({
+    methods:['GET','POST','PUT','DELETE']
+}))
 app.use(bodyParser.json())
 
 app.use('/account', accountRouter)
@@ -22,4 +26,4 @@ sequelize.sync().then((result) => {
 
 const server = http.createServer(app)
 
-server.listen(3000);
+server.listen(process.env.PORT || 3000);
