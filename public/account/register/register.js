@@ -13,7 +13,8 @@ form.addEventListener('submit', async (event) => {
         const result = await axios.post("http://localhost:3000/account/register", userDetail)
         console.log(result);
         if(result.data.status){
-            alert("success")
+            alert("Your Registration is successfully Completed")
+            window.location.href = '../login/login.html'
         }
 
     } catch (e) {
