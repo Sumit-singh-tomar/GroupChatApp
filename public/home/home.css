@@ -5,9 +5,11 @@ body {
 
 #root{
     height: 100vh;
+    width: 100vw;
 }
 
 header {
+    width: 100%;
     background-color: black;
     padding: 2%;
     box-sizing: border-box;
@@ -22,7 +24,7 @@ header {
 }
 
 main {
-    height: 72%;
+    /* height: 72%; */
 }
 
 #box {
@@ -31,16 +33,19 @@ main {
 }
 
 footer{
-    position: sticky;
+    width: 100%;
+    position: fixed;
     bottom: 0px;
+    background-color:red;
+    box-sizing: border-box;
 }
 
 #box2 {
     margin: 0 auto;
-    box-sizing: border-box;
     background-color: cadetblue;
     padding: 1%;
     text-align: center;
+    box-sizing: border-box;
 }
 
 form input {
