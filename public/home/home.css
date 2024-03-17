@@ -23,13 +23,23 @@ header {
     letter-spacing: 1px;
 }
 
-main {
-    /* height: 72%; */
-}
-
 #box {
     width: 70%;
-    margin: 2% auto;
+    margin: 0% auto;
+    padding: 1%;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 10px gray;
+}
+
+#box div:nth-of-type(odd) {
+    background-color: gainsboro;
+    margin-top: 0.5%;
+    padding: 0.5%;
+}
+
+#box div:nth-of-type(even){
+    padding: 0.5%;
+    margin-top: 0.5%;
 }
 
 footer{
