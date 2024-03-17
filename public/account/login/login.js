@@ -13,7 +13,7 @@ form.addEventListener("submit", async function (event) {
             console.log(result.data)
             localStorage.setItem("token", result.data.token)
             alert('User Login Successfully')
-            // window.location.href = ''
+            window.location.href = '/home/home.html'
         }
     }
     catch (e) {
