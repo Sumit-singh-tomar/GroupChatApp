@@ -4,53 +4,53 @@ document.addEventListener("DOMContentLoaded", async function () {
     try {
         // const oldChat = JSON.parse(localStorage.getItem("messages"))
         // if (oldChat?.length) {
-            // const lastChat = oldChat.pop()
-            // const lastChatID = lastChat.id
-            const token = localStorage.getItem("token")
+        // const lastChat = oldChat.pop()
+        // const lastChatID = lastChat.id
+        const token = localStorage.getItem("token")
 
-            const res = await axios.get("http://localhost:3000/group/getGroup", { headers: { "Authorization": token } })
+        const res = await axios.get("http://localhost:3000/group/getGroup", { headers: { "Authorization": token } })
 
-            if (res.data && res.data.data)
-                showGroup(res.data.data)
+        if (res.data && res.data.data)
+            showGroup(res.data.data)
 
-            // const result = await axios.get(`http://localhost:3000/message/getMessage/${lastChatID}`, { headers: { "Authorization": token } })
+        // const result = await axios.get(`http://localhost:3000/message/getMessage/${lastChatID}`, { headers: { "Authorization": token } })
 
-            const result = await axios.get(`http://localhost:3000/message/getGroupMessages?groupId=${checkGroupId()}`, { headers: { "Authorization": token } })
+        const result = await axios.get(`http://localhost:3000/message/getGroupMessages?groupId=${checkGroupId()}`, { headers: { "Authorization": token } })
 
 
-            if (result.data.status) {
-                // const oldChat = JSON.parse(localStorage.getItem("messages"))
-                // localStorage.removeItem("messages")
-                // if (oldChat.length >= 10) {
-                    // oldChat.splice(0, result.data.data.length)
-                // }
-                // result?.data?.data.map((item) => {
-                //     oldChat.push(item)
-                // })
+        if (result.data.status) {
+            // const oldChat = JSON.parse(localStorage.getItem("messages"))
+            // localStorage.removeItem("messages")
+            // if (oldChat.length >= 10) {
+            // oldChat.splice(0, result.data.data.length)
+            // }
+            // result?.data?.data.map((item) => {
+            //     oldChat.push(item)
+            // })
 
-                // localStorage.setItem("messages", JSON.stringify(oldChat))
-                // showChat(JSON.parse(localStorage.getItem("messages")))
-                showChat(result.data.data)
-                }
+            // localStorage.setItem("messages", JSON.stringify(oldChat))
+            // showChat(JSON.parse(localStorage.getItem("messages")))
+            showChat(result.data.data,AdminGroup)
+        }
         // }
         // else {
-            // const token = localStorage.getItem("token")
+        // const token = localStorage.getItem("token")
 
-            // const res = await axios.get("http://localhost:3000/group/getGroup", { headers: { "Authorization": token } })
+        // const res = await axios.get("http://localhost:3000/group/getGroup", { headers: { "Authorization": token } })
 
-            // if (res.data && res.data.data)
-                // showGroup(res.data.data)
+        // if (res.data && res.data.data)
+        // showGroup(res.data.data)
 
-            // const result = await axios.get("http://localhost:3000/message/getNewMessage", { headers: { "Authorization": token } })
+        // const result = await axios.get("http://localhost:3000/message/getNewMessage", { headers: { "Authorization": token } })
 
-            // if (result.data.status) {
-                // const chat = result?.data?.data.map((item) => {
-                    // return item
-                // })
+        // if (result.data.status) {
+        // const chat = result?.data?.data.map((item) => {
+        // return item
+        // })
 
-                // localStorage.setItem("messages", JSON.stringify(chat))
-                // showChat(result.data.data)
-            // }
+        // localStorage.setItem("messages", JSON.stringify(chat))
+        // showChat(result.data.data)
+        // }
         // }
     } catch (error) {
         alert("Something Went Wrong")
@@ -58,9 +58,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 })
 
-function showChat(data) {
+let isAdmin;
+function showChat(data, isAdmin) {
     const box = document.getElementById('box')
+    const button = document.createElement('button')
+    button.innerHTML = "+ Add Member"
     box.innerHTML = ''
+    isAdmin ? box.appendChild(button) : '';
     data?.map((item, i) => {
         const div = document.createElement('div')
         div.innerHTML = `${i + 1}) ${item.message}`
@@ -69,41 +73,42 @@ function showChat(data) {
     })
 }
 
-async function fetchChat(groupId) {
+async function fetchChat(groupId, isAdmin) {
     try {
         const token = localStorage.getItem("token")
         const result = await axios.get(`http://localhost:3000/message/getGroupMessages?groupId=${groupId}`, { headers: { "Authorization": token } })
-        if(result.data.status){
+        if (result.data.status) {
             console.log(result.data)
-            showChat(result.data.data)
+            showChat(result.data.data, isAdmin)
         }
     } catch (error) {
         alert("Something Went Wrong")
-        console.log("error",error);
+        console.log("error", error);
     }
 }
 
 let currentGroupId;
+let AdminGroup;
 function showGroup(data) {
     let currentSelectedDiv;
     currentGroupId = data[0].id
-    data.map((item,i) => {
+    AdminGroup = data[0]['usergroups.isAdmin']
+    data.map((item, i) => {
         const div = document.createElement('div')
         div.innerHTML = `${item.groupname}`
         div.style.fontSize = '18px'
         div.style.cursor = 'pointer'
-        if(i==0){
-            div.style.background='black'
-            div.style.color='white'
+        if (i == 0) {
+            div.style.background = 'black'
+            div.style.color = 'white'
             currentSelectedDiv = div
         }
         div.addEventListener("click", function (event) {
             if (currentSelectedDiv) {
-                currentSelectedDiv.style.backgroundColor = ''; 
+                currentSelectedDiv.style.backgroundColor = '';
                 currentSelectedDiv.style.color = 'green'
             }
-            fetchChat(item.id);
-            fetchChat(item.id);
+            fetchChat(item.id, item['usergroups.isAdmin']);
             div.style.backgroundColor = 'black';
             div.style.color = 'white';
             currentGroupId = item.id;
@@ -113,7 +118,7 @@ function showGroup(data) {
     })
 }
 
-function checkGroupId(){
+function checkGroupId() {
     return currentGroupId;
 }
 
@@ -124,14 +129,14 @@ form.addEventListener('submit', async (event) => {
         const message = event.target.message.value;
         const data = {
             message: message,
-            groupId:checkGroupId(),
+            groupId: checkGroupId(),
         }
 
         const result = await axios.post("http://localhost:3000/message/saveMessage", data, { headers: { 'Authorization': token } })
         if (result.data.status) {
             // const chat = JSON.parse(localStorage.getItem("messages"));
             // chat.push(result.data.data);
-                fetchChat(checkGroupId())
+            fetchChat(checkGroupId())
             // window.location.reload();
             // showChat(result.data.data)
         }

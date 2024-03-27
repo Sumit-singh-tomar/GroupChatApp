@@ -11,5 +11,4 @@ router.get('/getNewMessage',authentication,messageController.getNewMessage)
 
 router.get('/getGroupMessages',authentication,messageController.getGroupMessage)
 
-
 module.exports = router;
