@@ -8,6 +8,7 @@ const path = require('path')
 const Message = require('./Models/message')
 const Account = require('./Models/account')
 const Group = require('./Models/group')
+const Usergroup = require('./Models/usergroup')
 
 const accountRouter = require('./routes/account')
 const messageRouter = require('./routes/message')
@@ -31,11 +32,15 @@ Message.belongsTo(Account,{
     onDelete:'CASCADE',
 });
 
-Account.hasMany(Group);
-Group.belongsTo(Account,{
-    constraints:true,
-    onDelete:'CASCADE',
-})
+Account.belongsToMany(Group, { through: Usergroup });
+Group.belongsToMany(Account, { through: Usergroup });
+Account.hasMany(Usergroup);
+Usergroup.belongsTo(Account)
+Group.hasMany(Usergroup)
+Usergroup.belongsTo(Group)
+
+Group.hasMany(Message);
+Message.belongsTo(Group)
 
 sequelize.sync().then((result) => {
     console.log("Database Connected Successfully");

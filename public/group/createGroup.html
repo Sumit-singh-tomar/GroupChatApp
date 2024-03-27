@@ -5,10 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Group</title>
     <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="createGroup.css">
 </head>
 <body>
     <Form>
-        <input type="text" id="groupname" placeholder="Enter Group Name" />
+        <div onclick="homeClick()">Home</div>
+        <h2>Create Group</h2>
+        <input type="text" id="groupname" placeholder="Enter Group Name"  required />
+        <div id="friendList"></div>
         <button type="submit">Create Group</button>
     </Form>
 

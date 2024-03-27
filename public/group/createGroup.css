@@ -1,0 +1,41 @@
+form {
+    background-color: aliceblue;
+    width: 50%;
+    text-align: center;
+    margin: 0 auto;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 6px;
+    border: none;
+}
+
+form div {
+    margin-top: 2%;
+}
+
+form>div:first-child {
+    text-align: left;
+    padding: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+form div button {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+form>button {
+    margin-top: 3%;
+    width: 50%;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    cursor: pointer;
+}

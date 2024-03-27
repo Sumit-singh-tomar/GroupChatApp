@@ -31,6 +31,13 @@ header {
     box-sizing: border-box;
 }
 
+#list div{
+ margin-top: 2%;
+ color: green;
+ padding: 10px;
+ box-sizing: border-box;
+}
+
 h3{
     text-align: center;
 }

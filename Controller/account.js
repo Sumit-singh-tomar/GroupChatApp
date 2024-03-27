@@ -25,8 +25,8 @@ exports.account = async (req, res) => {
     }
 }
 
-function generateToken(id,name, email, phonenumber) {
-    return jwt.sign({id, name, email, phonenumber},process.env.JWT_SECRET_KEY)
+function generateToken(id, name, email, phonenumber) {
+    return jwt.sign({ id, name, email, phonenumber }, process.env.JWT_SECRET_KEY)
 }
 
 exports.login = async (req, res) => {
@@ -56,7 +56,26 @@ exports.login = async (req, res) => {
             }
         }
     } catch (e) {
-        console.log('error',e);
+        console.log('error', e);
         res.status(500).json({ status: false, data: 'Something Went Wrong' })
     }
+}
+
+
+exports.getAllUser = async (req, res) => {
+    try {
+        const result = await account.findAll({
+            where: {
+                id:{
+                    [Op.not]: req.user.id
+                }
+            },
+            raw: true
+        })
+        res.status(200).json({ status: true, data: result })
+    } catch (error) {
+        console.log('error', error);
+        res.status(500).json({ status: false, data: 'Something Went Wrong' })
+    }
+
 }

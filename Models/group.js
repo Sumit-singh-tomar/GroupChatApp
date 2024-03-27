@@ -1,20 +1,18 @@
 const sequelize = require('../Connection/database')
-const { DataTypes } = require('sequelize')
+const { DataTypes } = require('sequelize');
+const Account = require('./account');
 
-const Group = sequelize.define('group',{
-    id:{
+const Group = sequelize.define('group', {
+    id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true,
     },
-    groupname : {
-        type:DataTypes.STRING,
+    groupname: {
+        type: DataTypes.STRING,
         allowNull: false,
-    },
-    // members:{
-    //     type:DataTypes.ARRAY
-    // }
+    }
 })
 
 
